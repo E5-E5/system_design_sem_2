@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+python-jose
+pydantic
+pytest
+httpx
+psycopg2-binary
+pymongo
+redis[hiredis]
+slowapi
+pika
