@@ -23,8 +23,7 @@ auth_service = AuthService()
 @limiter.limit("5/minute")
 def register(request: Request, request_reg: RegisterRequest):
 
-    user = User(
-        id=request_reg.id,
+    user = RegisterRequest(
         login=request_reg.login,
         password=request_reg.password,
         first_name=request_reg.first_name,

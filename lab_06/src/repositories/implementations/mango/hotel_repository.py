@@ -1,5 +1,6 @@
 from bson import ObjectId
 
+from src.dto.dto import CreateHotelRequest
 from src.repositories.db.mongo_database import MongoDatabase
 from src.model.hotel import Hotel
 
@@ -17,7 +18,7 @@ class HotelRepository_mango(IHotelRepository):
 
         self.collection = self.db["hotels"]
 
-    def create(self, hotel: Hotel):
+    def create(self, hotel: CreateHotelRequest):
 
         document = {
             "name": hotel.name,

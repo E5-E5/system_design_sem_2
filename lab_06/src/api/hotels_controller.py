@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from src.dto.dto import CreateHotelRequest
 from src.model.hotel import Hotel
 from src.services.implementations.hotel_service import HotelService
 from fastapi import Depends
@@ -16,7 +17,7 @@ hotel_service = HotelService()
 @limiter.limit("5/minute")
 def create_hotel(
     request: Request,
-    hotel: Hotel,
+    hotel: CreateHotelRequest,
     user = Depends(get_current_user)
 ):
 

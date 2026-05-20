@@ -1,4 +1,4 @@
-from src.model.user import User
+from src.dto.dto import RegisterRequest
 
 from src.repositories.implementations.pg.user_repository import UserRepository
 from src.services.interfaces.auth_service import IAuthService
@@ -13,7 +13,7 @@ class AuthService(IAuthService):
 
         self.user_repository = UserRepository()
 
-    def register(self, user: User):
+    def register(self, user: RegisterRequest):
 
         existing_user = self.user_repository.get_by_login(
             user.login
@@ -22,7 +22,7 @@ class AuthService(IAuthService):
         if existing_user is not None:
             return None
 
-        user_id = self.user_repository.create(user)
+        user_id = self.user_repository.create_user(user)
 
         token = create_access_token(
             {

@@ -16,9 +16,3 @@ class UserService(IUserService):
         return self.user_repository.get_by_login(
             login
         )
-
-    def search_users(self, name: str):
-
-        return self.user_repository.search_users(
-            name
-        )

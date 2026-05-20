@@ -1,3 +1,4 @@
+from src.dto.dto import CreateHotelRequest
 from src.model.hotel import Hotel
 
 from src.repositories.db.pg_database import Database
@@ -12,7 +13,7 @@ class HotelRepository(IHotelRepository):
 
         self.db = Database()
 
-    def create(self, hotel: Hotel):
+    def create(self, hotel: CreateHotelRequest):
 
         connection = self.db.get_connection()
 

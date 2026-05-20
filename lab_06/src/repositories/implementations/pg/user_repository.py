@@ -1,4 +1,5 @@
 
+from src.dto.dto import RegisterRequest
 from src.model.user import User
 
 from src.repositories.db.pg_database import Database
@@ -13,7 +14,7 @@ class UserRepository(IUserRepository):
 
         self.db = Database()
 
-    def create_user(self, user: User):
+    def create_user(self, user: RegisterRequest):
 
         connection = self.db.get_connection()
 

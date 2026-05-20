@@ -1,3 +1,4 @@
+from src.dto.dto import CreateHotelRequest
 from src.repositories.implementations.mango.hotel_repository import HotelRepository_mango
 from src.model.hotel import Hotel
 from src.services.interfaces.hotel_service import (
@@ -15,7 +16,7 @@ class HotelService(IHotelService):
         self.redis = RedisDatabase().get_client()
         self.producer = EventProducer()
 
-    def create_hotel(self, hotel: Hotel):
+    def create_hotel(self, hotel: CreateHotelRequest):
 
         hotel_id = self.hotel_repository.create(
             hotel
