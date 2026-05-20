@@ -1,88 +1,113 @@
-# Система бронирования отелей
+# Hotel Booking API
 
-## Описание
-Система позволяет пользователям искать отели и бронировать номера.
+REST API сервис для системы бронирования отелей.
 
-## 1. Роли
-- Пользователь
-- Администратор
+Проект реализован на:
+- FastAPI
+- JWT Authentication
+- Docker
+- Swagger/OpenAPI
 
-## 2. Внешние системы
-- Платежная система
-- e-mail сервис
+---
 
-## 3. Основные сценарии
-- Пользователь:
-  - регистрация
-  - вход
-  - поиск отелей
-  - бронирование
-  - отмена бронирования
-  - просмотр своих бронирований
-  - просмотр профиля
-- Админ:
-  - создание отеля
-  - просмотр списка отелей
+# Функциональность
 
-## 4. Перечень container
-<!-- Используется микросервисная архитектура, состаящая из контейнеров:
-- API
-- Auth Service
-- User Service
-- Hotel Service
-- Booking Service
-- Notification Service
-- Database (PostgreSQL) -->
+## Пользователи
+- Регистрация пользователя
+- Авторизация пользователя
+- Поиск пользователя по логину
+- Поиск пользователей по имени/фамилии
 
-| Контейнер            | Назначение                   | Технология           | Протоколы взаимодействия |
-| -------------------- | ---------------------------- | -------------------- | ------------------------ |
-| API Gateway          | Точка входа                  | REST API             | HTTPS / REST             |
-| Auth Service         | Авторизация и аутентификация | Spring Boot REST API | HTTPS / REST, JWT        |
-| User Service         | Управление пользователями    | Spring Boot REST API | HTTPS / REST, JDBC       |
-| Hotel Service        | Управление отелями           | Spring Boot REST API | HTTPS / REST, JDBC       |
-| Booking Service      | Управление бронированиями    | Spring Boot REST API | HTTPS / REST, JDBC       |
-| Notification Service | Email-уведомления            | Spring Boot          | SMTP / REST              |
-| PostgreSQL           | Основная база данных         | PostgreSQL           | JDBC                     |
+## Отели
+- Создание отеля
+- Получение списка отелей
+- Поиск отелей по городу
 
+## Бронирования
+- Создание бронирования
+- Получение бронирований пользователя
+- Отмена бронирования
 
+---
 
-Основные сценарии взаимодействия
-1. Создание пользователя
-Последовательность
-- Пользователь отправляет форму регистрации
-- Web Application вызывает API Gateway
-- API Gateway перенаправляет запрос в User Service
-- User Service сохраняет пользователя в PostgreSQL
-- User Service возвращает результат
+# Технологии
 
-2. Поиск отелей по городу
-Последовательность
-- Пользователь вводит город
-- Web Application отправляет запрос
-- API Gateway вызывает Hotel Service
-- Hotel Service получает данные из PostgreSQL
-- Список отелей возвращается пользователю
+- Python 3.11
+- FastAPI
+- JWT
+- Docker
+- Pytest
 
-3. Создание бронирования
-Последовательность
-- Пользователь выбирает отель
-- Web Application отправляет запрос на бронирование
-- API Gateway вызывает Booking Service
-- Booking Service проверяет доступность отеля через Hotel Service
-- Booking Service сохраняет бронь в PostgreSQL
-- Booking Service выполняет оплату через Payment System
-- Notification Service получает событие
-- Notification Service отправляет email пользователю
+---
 
-4. Получение бронирований пользователя
-Последовательность
-- Пользователь открывает список бронирований
-- Web Application вызывает Booking Service
-- Booking Service читает данные из PostgreSQL
-- Результат возвращается пользователю
-5. Отмена бронирования
-Последовательность
-- Пользователь отменяет бронирование
-- Booking Service обновляет статус брони
-- Booking Service отправляет событие BookingCancelled
-- Notification Service отправляет email
+# Структура проекта
+
+```text
+src/
+│
+├── api/
+├── dto/
+├── model/
+├── security/
+├── services/
+│
+└── main.py
+tests/
+```
+
+Запуск проекта локально
+Установка зависимостей
+pip install -r requirements.txt
+Запуск приложения
+uvicorn src.main:app --reload
+
+После запуска приложение доступно:
+
+Swagger UI
+http://localhost:8000/docs
+
+OpenAPI
+http://localhost:8000/openapi.json
+
+# Docker
+- Сборка контейнера
+```docker compose build```
+- Запуск контейнера
+```docker compose up```
+- Остановка контейнера
+CTRL + C
+
+# Тесты
+Запуск тестов локально
+```python -m pytest ```
+
+# Основные endpoints
+- Authentication
+
+Регистрация POST /auth/register
+
+Авторизация POST /auth/login
+
+- Hotels
+
+Создание отеля POST /hotels/
+
+Получение списка отелей GET /hotels/
+
+Поиск по городу GET /hotels/search?city=Amsterdam
+
+- Bookings
+
+Создание бронирования POST /bookings/
+
+Получение бронирований пользователя GET /bookings/{user_id}
+
+Отмена бронирования DELETE /bookings/{booking_id}
+
+- Аутентификация
+
+Для защищённых endpoints используется JWT Bearer Token.
+
+Токен можно получить через:
+
+POST /auth/login
